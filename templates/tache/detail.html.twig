@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail de la tâche{% endblock %}
+
+{% block body %}
+
+<div class="mb-4">
+    <a href="{{ path('app_taches') }}"
+       class="btn btn-outline-secondary">
+        ← Retour à la liste
+    </a>
+</div>
+
+<div class="card shadow-sm">
+
+    <div class="card-header bg-dark text-white">
+        <h2 class="h4 mb-0">Détail de la tâche #{{ tache.id }}</h2>
+    </div>
+
+    <div class="card-body">
+
+        <h3 class="mb-3">
+            {% if tache.terminee %}
+                <span style="text-decoration: line-through;">
+                    {{ tache.titre }}
+                </span>
+            {% else %}
+                {{ tache.titre }}
+            {% endif %}
+        </h3>
+
+        <p>
+            <strong>Description :</strong>
+        </p>
+
+        <p>
+            {{ tache.description|default('Aucune description disponible.') }}
+        </p>
+
+        <p>
+            <strong>Date de création :</strong>
+            {{ tache.dateCreation|date('d/m/Y à H:i') }}
+        </p>
+
+        <p>
+            <strong>Statut :</strong>
+
+            {% if tache.terminee %}
+                <span class="badge bg-success">
+                    Terminée
+                </span>
+            {% else %}
+                <span class="badge bg-warning text-dark">
+                    En cours
+                </span>
+            {% endif %}
+        </p>
+
+    </div>
+
+</div>
+
+{% endblock %}
