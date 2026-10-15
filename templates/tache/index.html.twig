@@ -3,6 +3,17 @@
 {% block title %}Liste des tâches{% endblock %}
 
 {% block body %}
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ message }}
+
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Fermer">
+        </button>
+    </div>
+{% endfor %}
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h1>Ma liste de tâches</h1>
@@ -67,12 +78,23 @@
                             {% endif %}
                         </td>
 
-                        <td>
-                            <a href="{{ path('app_tache_detail', {'id': tache.id}) }}"
-                               class="btn btn-sm btn-outline-primary">
-                                Détails
-                            </a>
-                        </td>
+               <td>
+    <a href="{{ path('app_tache_detail', {'id': tache.id}) }}"
+       class="btn btn-sm btn-outline-primary">
+        Détails
+    </a>
+
+    {% if not tache.terminee %}
+        <a href="{{ path('app_tache_terminer', {'id': tache.id}) }}"
+           class="btn btn-sm btn-success">
+            ✓ Terminer
+        </a>
+    {% else %}
+        <span class="badge bg-success">
+            Déjà terminée
+        </span>
+    {% endif %}
+</td>
                     </tr>
 
                 {% endfor %}

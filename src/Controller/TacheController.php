@@ -12,15 +12,17 @@ use Symfony\Component\Routing\Attribute\Route;
 class TacheController extends AbstractController
 {
     // Route 1 : afficher toutes les tâches
-    #[Route('/taches', name: 'app_taches')]
-    public function index(TacheRepository $tacheRepository): Response
-    {
-        $taches = $tacheRepository->findAll();
+ #[Route('/taches', name: 'app_taches')]
+public function index(TacheRepository $tacheRepository): Response
+{
+    $taches = $tacheRepository->findBy([], [
+        'terminee' => 'ASC',
+    ]);
 
-        return $this->render('tache/index.html.twig', [
-            'taches' => $taches,
-        ]);
-    }
+    return $this->render('tache/index.html.twig', [
+        'taches' => $taches,
+    ]);
+}
 
     // Route 2 : ajouter une tâche en base de données
     #[Route('/taches/ajouter', name: 'app_tache_ajouter')]
@@ -55,4 +57,21 @@ class TacheController extends AbstractController
             'tache' => $tache,
         ]);
     }
+    // Route bonus : marquer une tâche comme terminée
+#[Route(
+    '/taches/{id}/terminer',
+    name: 'app_tache_terminer',
+    requirements: ['id' => '\d+'],
+    methods: ['GET']
+)]
+public function terminer(Tache $tache, EntityManagerInterface $em): Response
+{
+    $tache->setTerminee(true);
+
+    $em->flush();
+
+    $this->addFlash('success', 'La tâche a été marquée comme terminée.');
+
+    return $this->redirectToRoute('app_taches');
+}
 }
