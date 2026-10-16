@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Article;
+use App\Entity\Categorie;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -44,6 +46,16 @@ class ArticleType extends AbstractType
                     'class' => 'form-control shadow-sm',
                 ],
             ])
+
+            // Champ Catégorie (Relation Doctrine)
+            ->add('categorie', EntityType::class, [
+                'class' => Categorie::class,
+                'choice_label' => 'nom',
+                'label' => 'Catégorie',
+                'placeholder' => '-- Choisir une catégorie --',
+                'required' => false,
+                'attr' => ['class' => 'form-control shadow-sm'],
+            ])
             
             // Champ Date de création personnalisé
             ->add('dateCreation', DateTimeType::class, [
@@ -66,13 +78,13 @@ class ArticleType extends AbstractType
                     'class' => 'form-check-label fw-bold'
                 ],
                 'row_attr' => [
-                    'class' => 'form-check form-switch my-3' // Transforme en interrupteur (switch) si Bootstrap est utilisé
+                    'class' => 'form-check form-switch my-3'
                 ],
             ])
             
             // Bouton de soumission personnalisé
             ->add('enregistrer', SubmitType::class, [
-                'label' => '🚀 Publier l’article',
+                'label' => 'Publier l’article',
                 'attr' => [
                     'class' => 'btn btn-success btn-lg w-100 shadow'
                 ],
