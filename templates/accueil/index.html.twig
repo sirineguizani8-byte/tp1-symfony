@@ -3,7 +3,24 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %}
-    <h1>Bienvenue sur notre application Symfony !</h1>
-    <p>Ceci est votre première application construite avec le framework <strong>Symfony 7.4</strong>.</p>
-    <p>Date actuelle : {{ "now" | date("d/m/Y H:i") }}</p>
+
+    <h1 class="mb-4">Bienvenue sur notre site Symfony !</h1>
+
+    <div class="alert alert-success">
+        <h4>Session Symfony</h4>
+
+        <p class="mb-0">
+            Nombre de visites :
+            <strong>{{ nb_visites }}</strong>
+        </p>
+    </div>
+
+    <p>
+        Vous êtes sur la page d'accueil de notre application.
+    </p>
+
+    <a href="{{ path('app_articles') }}" class="btn btn-primary">
+        Voir les articles
+    </a>
+
 {% endblock %}
